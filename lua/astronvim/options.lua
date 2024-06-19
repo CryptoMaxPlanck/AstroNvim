@@ -7,11 +7,12 @@ end
 local options = astronvim.user_opts("options", {
   opt = {
     breakindent = true, -- wrap indent to match  line start
-    clipboard = "unnamedplus", -- connection to the system clipboard
+    -- clipboard = "unnamedplus", -- connection to the system clipboard
     cmdheight = 0, -- hide command line unless needed
     completeopt = { "menu", "menuone", "noselect" }, -- Options for insert mode completion
     copyindent = true, -- copy the previous indentation on autoindenting
     cursorline = true, -- highlight the text line of the cursor
+    cursorcolumn = true, -- highlights the text column of the cursor
     expandtab = true, -- enable the use of space in tab
     fileencoding = "utf-8", -- file content encoding for the buffer
     fillchars = { eob = " " }, -- disable `~` on nonexistent lines
@@ -49,7 +50,7 @@ local options = astronvim.user_opts("options", {
     mapleader = " ", -- set leader key
     maplocalleader = ",", -- set default local leader key
     -- AstroNvim specific global options
-    max_file = { size = 1024 * 100, lines = 10000 }, -- set global limits for large files
+    max_file = { size = 1024 * 100, lines = 50000 }, -- set global limits for large files
     autoformat_enabled = true, -- enable or disable auto formatting at start (lsp.formatting.format_on_save must be enabled)
     autopairs_enabled = true, -- enable autopairs at start
     cmp_enabled = true, -- enable completion at start

@@ -263,7 +263,7 @@ M.on_attach = function(client, bufnr)
   if client.supports_method "textDocument/hover" then
     -- TODO: Remove mapping after dropping support for Neovim v0.9, it's automatic
     if vim.fn.has "nvim-0.10" == 0 then
-      lsp_mappings.n["K"] = {
+      lsp_mappings.n["gh"] = {
         function() vim.lsp.buf.hover() end,
         desc = "Hover symbol details",
       }
@@ -380,6 +380,8 @@ end
 
 --- The default AstroNvim LSP capabilities
 M.capabilities = vim.lsp.protocol.make_client_capabilities()
+M.capabilities.offsetEncoding = { "utf-16" }
+require("lspconfig").clangd.setup({ capabilities = M.capabilities })
 M.capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
 M.capabilities.textDocument.completion.completionItem.snippetSupport = true
 M.capabilities.textDocument.completion.completionItem.preselectSupport = true

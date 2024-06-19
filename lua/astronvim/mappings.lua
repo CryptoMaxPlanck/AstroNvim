@@ -7,7 +7,7 @@ local ui = require "astronvim.utils.ui"
 local maps = require("astronvim.utils").empty_map_table()
 
 local sections = {
-  f = { desc = get_icon("Search", 1, true) .. "Find" },
+  s = { desc = get_icon("Search", 1, true) .. "Find" },
   p = { desc = get_icon("Package", 1, true) .. "Packages" },
   l = { desc = get_icon("ActiveLSP", 1, true) .. "LSP" },
   u = { desc = get_icon("Window", 1, true) .. "UI/UX" },
@@ -50,9 +50,9 @@ maps.n["<leader>pl"] = { "<cmd>AstroChangelog<cr>", desc = "AstroNvim Changelog"
 -- Manage Buffers
 maps.n["<leader>c"] = { function() require("astronvim.utils.buffer").close() end, desc = "Close buffer" }
 maps.n["<leader>C"] = { function() require("astronvim.utils.buffer").close(0, true) end, desc = "Force close buffer" }
-maps.n["]b"] =
+maps.n["gb"] =
   { function() require("astronvim.utils.buffer").nav(vim.v.count > 0 and vim.v.count or 1) end, desc = "Next buffer" }
-maps.n["[b"] = {
+maps.n["gB"] = {
   function() require("astronvim.utils.buffer").nav(-(vim.v.count > 0 and vim.v.count or 1)) end,
   desc = "Previous buffer",
 }
@@ -118,8 +118,8 @@ if is_available "heirline.nvim" then
 end
 
 -- Navigate tabs
-maps.n["]t"] = { function() vim.cmd.tabnext() end, desc = "Next tab" }
-maps.n["[t"] = { function() vim.cmd.tabprevious() end, desc = "Previous tab" }
+-- maps.n["]t"] = { function() vim.cmd.tabnext() end, desc = "Next tab" }
+-- maps.n["[t"] = { function() vim.cmd.tabprevious() end, desc = "Previous tab" }
 
 -- Alpha
 if is_available "alpha-nvim" then
@@ -238,7 +238,7 @@ end
 if is_available "telescope.nvim" then
   maps.n["<leader>f"] = sections.f
   maps.n["<leader>g"] = sections.g
-  maps.n["<leader>gb"] =
+  maps.n["<leader>gr"] =
     { function() require("telescope.builtin").git_branches { use_file_path = true } end, desc = "Git branches" }
   maps.n["<leader>gc"] = {
     function() require("telescope.builtin").git_commits { use_file_path = true } end,
@@ -276,33 +276,33 @@ if is_available "telescope.nvim" then
     end,
     desc = "Find AstroNvim config files",
   }
-  maps.n["<leader>fb"] = { function() require("telescope.builtin").buffers() end, desc = "Find buffers" }
-  maps.n["<leader>fc"] = { function() require("telescope.builtin").grep_string() end, desc = "Find word under cursor" }
-  maps.n["<leader>fC"] = { function() require("telescope.builtin").commands() end, desc = "Find commands" }
-  maps.n["<leader>ff"] = { function() require("telescope.builtin").find_files() end, desc = "Find files" }
-  maps.n["<leader>fF"] = {
+  maps.n["<leader>sb"] = { function() require("telescope.builtin").buffers() end, desc = "Find buffers" }
+  maps.n["<leader>sc"] = { function() require("telescope.builtin").grep_string() end, desc = "Find word under cursor" }
+  maps.n["<leader>sC"] = { function() require("telescope.builtin").commands() end, desc = "Find commands" }
+  maps.n["<leader>sf"] = { function() require("telescope.builtin").find_files() end, desc = "Find files" }
+  maps.n["<leader>sF"] = {
     function() require("telescope.builtin").find_files { hidden = true, no_ignore = true } end,
     desc = "Find all files",
   }
-  maps.n["<leader>fh"] = { function() require("telescope.builtin").help_tags() end, desc = "Find help" }
-  maps.n["<leader>fk"] = { function() require("telescope.builtin").keymaps() end, desc = "Find keymaps" }
-  maps.n["<leader>fm"] = { function() require("telescope.builtin").man_pages() end, desc = "Find man" }
+  maps.n["<leader>sh"] = { function() require("telescope.builtin").help_tags() end, desc = "Find help" }
+  maps.n["<leader>sk"] = { function() require("telescope.builtin").keymaps() end, desc = "Find keymaps" }
+  maps.n["<leader>sm"] = { function() require("telescope.builtin").man_pages() end, desc = "Find man" }
   if is_available "nvim-notify" then
     maps.n["<leader>fn"] =
       { function() require("telescope").extensions.notify.notify() end, desc = "Find notifications" }
   end
-  maps.n["<leader>fo"] = { function() require("telescope.builtin").oldfiles() end, desc = "Find history" }
-  maps.n["<leader>fr"] = { function() require("telescope.builtin").registers() end, desc = "Find registers" }
-  maps.n["<leader>ft"] =
+  maps.n["<leader>so"] = { function() require("telescope.builtin").oldfiles() end, desc = "Find history" }
+  maps.n["<leader>sr"] = { function() require("telescope.builtin").registers() end, desc = "Find registers" }
+  maps.n["<leader>st"] =
     { function() require("telescope.builtin").colorscheme { enable_preview = true } end, desc = "Find themes" }
-  maps.n["<leader>fw"] = { function() require("telescope.builtin").live_grep() end, desc = "Find words" }
-  maps.n["<leader>fW"] = {
+  maps.n["<leader>sg"] = { function() require("telescope.builtin").live_grep() end, desc = "Find grep" }
+  maps.n["<leader>sG"] = {
     function()
       require("telescope.builtin").live_grep {
         additional_args = function(args) return vim.list_extend(args, { "--hidden", "--no-ignore" }) end,
       }
     end,
-    desc = "Find words in all files",
+    desc = "Find grep in all files",
   }
   maps.n["<leader>l"] = sections.l
   maps.n["<leader>ls"] = {
@@ -420,14 +420,14 @@ if is_available "nvim-ufo" then
 end
 
 -- Stay in indent mode
-maps.v["<S-Tab>"] = { "<gv", desc = "Unindent line" }
-maps.v["<Tab>"] = { ">gv", desc = "Indent line" }
+maps.v["<"] = { "<gv", desc = "Unindent line" }
+maps.v[">"] = { ">gv", desc = "Indent line" }
 
 -- Improved Terminal Navigation
-maps.t["<C-h>"] = { "<cmd>wincmd h<cr>", desc = "Terminal left window navigation" }
-maps.t["<C-j>"] = { "<cmd>wincmd j<cr>", desc = "Terminal down window navigation" }
-maps.t["<C-k>"] = { "<cmd>wincmd k<cr>", desc = "Terminal up window navigation" }
-maps.t["<C-l>"] = { "<cmd>wincmd l<cr>", desc = "Terminal right window navigation" }
+-- maps.t["<C-h>"] = { "<cmd>wincmd h<cr>", desc = "Terminal left window navigation" }
+-- maps.t["<C-j>"] = { "<cmd>wincmd j<cr>", desc = "Terminal down window navigation" }
+-- maps.t["<C-k>"] = { "<cmd>wincmd k<cr>", desc = "Terminal up window navigation" }
+-- maps.t["<C-l>"] = { "<cmd>wincmd l<cr>", desc = "Terminal right window navigation" }
 
 maps.n["<leader>u"] = sections.u
 -- Custom menu for modification of the user experience
